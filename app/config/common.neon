@@ -16,15 +16,16 @@ session:
 
 
 database:
-	dsn: 'mysql:host=127.0.0.1;dbname=test'
-	user:
-	password:
+	dsn: 'mysql:host=127.0.0.1;dbname=eshop'
+	user: eshop
+	password: eshop
 	options:
 		lazy: yes
 
 
 services:
 	- App\Model\UserManager
+	- App\Model\EshopManager
 	- App\Forms\FormFactory
 	- App\Forms\SignInFormFactory
 	- App\Forms\SignUpFormFactory

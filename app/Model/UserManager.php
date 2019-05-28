@@ -18,10 +18,15 @@ final class UserManager implements Nette\Security\IAuthenticator
 	private const
 		TABLE_NAME = 'users',
 		COLUMN_ID = 'id',
-		COLUMN_NAME = 'username',
+		COLUMN_NAME = 'name',
+                COLUMN_SURNAME = 'surname',
+                CPLUMN_USERNAME = 'username',
 		COLUMN_PASSWORD_HASH = 'password',
 		COLUMN_EMAIL = 'email',
-		COLUMN_ROLE = 'role';
+		COLUMN_ROLE = 'role',
+                COLUMN_PHOTO = 'photo',
+                COLUMN_ADDRESS = 'address',
+                COLUMN_CREATIONDATE = 'creationDate';
 
 
 	/** @var Nette\Database\Context */
