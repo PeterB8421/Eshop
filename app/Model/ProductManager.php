@@ -9,7 +9,7 @@ use Nette;
 /**
  * Eshop management (not really).
  */
-final class EshopManager {
+final class ProductManager {
 
     const
             TABLE_NAME = 'product',
@@ -28,6 +28,22 @@ final class EshopManager {
 
     function getAll($order) {
         return $this->database->table(self::TABLE_NAME)->order($order)->fetchAll();
+    }
+    
+    function getByID($id){
+        return $this->database->table(self::TABLE_NAME)->get($id);
+    }
+    
+    function createRecord($data){
+        $this->database->table(self::TABLE_NAME)->insert($data);
+    }
+    
+    function updateRecord($id, $data){
+        $this->database->table(self::TABLE_NAME)->where(self::COLUMN_ID,$id)->update($data);
+    }
+    
+    function deleteRecord($id){
+        $this->database->table(self::TABLE_NAME)->delete($id);
     }
 
 }

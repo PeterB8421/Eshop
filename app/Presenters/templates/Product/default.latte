@@ -12,20 +12,23 @@
             <th><a n:href="default 'description'">Popis</a></th>
             <th>Fotka</th>
             <th><a n:href="default 'price'">Cena</th>
+            <th>Akce</th>
         </tr>
     </thead>
     <tbody>
         {foreach $products as $product}
             <tr>
                 <td>{$product->id}</td>
-                <td>{$product->name}</td>
+                <td><a n:href="view $product->id">{$product->name}</a></td>
                 <td>{$product->category}</td>
                 <td>{$product->description}</td>
                 <td>{if $product->photo != null}<img src="{$product->photo|dataStream}" class="img-responsive" style="width: 50px;">{/if}</td>
                 <td>{$product->price}</td>
+                <td><a href="#" role="button" class="btn btn-primary">Upravit</a><a href="#" role="button" class="btn btn-danger ajax">Smazat</a></td>
             </tr>
         {/foreach}
     </tbody>
 </table>
+<a n:href="create" role="button" class="btn btn-success">Vytvořit produkt</a>
 </p>
 {/block}
