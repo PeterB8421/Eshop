@@ -3,32 +3,55 @@
 <h1 class="jumbotron">Výpis produktů</h1>
 <p>
     Produkty: 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th><a n:href="default 'id'">ID</a></th>
-            <th><a n:href="default 'name'">Název</a></th>
-            <th><a n:href="default 'category'">Kategorie</a></th>
-            <th><a n:href="default 'description'">Popis</a></th>
-            <th>Fotka</th>
-            <th><a n:href="default 'price'">Cena</th>
-            <th>Akce</th>
-        </tr>
-    </thead>
-    <tbody>
-        {foreach $products as $product}
+    {snippet vypis}
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <td>{$product->id}</td>
-                <td><a n:href="view $product->id">{$product->name}</a></td>
-                <td>{$product->category}</td>
-                <td>{$product->description}</td>
-                <td>{if $product->photo != null}<img src="{$product->photo|dataStream}" class="img-responsive" style="width: 50px;">{/if}</td>
-                <td>{$product->price}</td>
-                <td><a href="#" role="button" class="btn btn-primary">Upravit</a><a href="#" role="button" class="btn btn-danger ajax">Smazat</a></td>
+                <th><a n:href="default 'id'">ID</a></th>
+                <th><a n:href="default 'name'">Název</a></th>
+                <th><a n:href="default 'category'">Kategorie</a></th>
+                <th><a n:href="default 'description'">Popis</a></th>
+                <th>Fotka</th>
+                <th><a n:href="default 'price'">Cena</th>
+                <th>Akce</th>
             </tr>
-        {/foreach}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {foreach $products as $product}
+                <tr>
+                    <td>{$product->id}</td>
+                    <td><a n:href="view $product->id">{$product->name}</a></td>
+                    <td>{$product->category}</td>
+                    <td>{$product->description}</td>
+                    <td><img src="{if $product->photo != null}{$product->photo|dataStream}{else}{$basePath}/images/default.png{/if}" class="img-responsive" style="width: 50px;"></td>
+                    <td>{$product->price}</td>
+                    <td><a href="#" role="button" class="btn btn-primary">Upravit</a><a role="button" class="btn btn-danger ajax" n:href="delete! $product->id">Smazat</a></td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+{/snippet}    
 <a n:href="create" role="button" class="btn btn-success">Vytvořit produkt</a>
 </p>
+
+<!--<div class="modal" tabindex="-1" role="dialog" id="deleteDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <a id="modal-confirm" role="button" class="btn btn-danger" data-dismiss="modal">Smazat</a>
+                <a id="modal-cancel" role="button" class="btn btn-secondary" data-dismiss="modal">Zrušit</a>
+            </div>
+        </div>
+    </div>
+</div>-->
+
 {/block}

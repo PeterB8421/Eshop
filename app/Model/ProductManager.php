@@ -43,7 +43,7 @@ final class ProductManager {
     }
     
     function deleteRecord($id){
-        $this->database->table(self::TABLE_NAME)->delete($id);
+        $this->database->table(self::TABLE_NAME)->where('id',$id)->delete();
     }
 
 }
