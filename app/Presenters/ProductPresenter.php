@@ -29,8 +29,15 @@ final class ProductPresenter extends BasePresenter {
         
     }
     
-    public function handleDelete($id){
+    public function renderEdit($id){
+        $product = $this->manager->getByID($id);
+        $this->template->product = $product;
+        $this['productForm']->setDefaults($product->toArray());
+    }
+
+        public function handleDelete($id){
         $this->manager->deleteRecord($id);
+        $this->flashMessage("Produkt úspěšně smazán.","warning");
         //$this->redraw("vypis");
     }
 

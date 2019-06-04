@@ -1,0 +1,47 @@
+{* Latte template *}
+
+{block content}
+<h2 class="jumbotron">Editace produktu</h2>
+<a n:href="default" role="button" class="btn btn-default">&lt;&lt; Zpět na hlavní stránku</a>
+{import '../components/bootstrap-form.latte'}
+
+<form n:name="productForm" class="ajax">
+    {if $form->ownErrors}
+        <div class="alert alert-danger">
+            <ul class=error n:ifcontent>
+                <li n:foreach="$form->ownErrors as $error">{$error}</li>
+            </ul>
+        </div>
+    {/if}
+    <div class="form-group row">
+        <label n:name=name class="col-sm-3 col-form-label"><span class="required">*</span> Název produktu: </label>
+        <div class="col-sm-6">
+            <input type="text" n:name=name class="form-control" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=category class="col-sm-3 col-form-label"><span class="required">*</span> Kategorie: </label>
+        <div class="col-sm-2">
+            <select n:name=category class="form-control" placeholder="">
+                <option value="tričko" {if $product->category == "tričko"} selected{/if}>Triko</option>
+                <option value="mikina" {if $product->category == "mikina"} selected{/if}>Mikina</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=description class="col-sm-3 col-form-label">Popis produktu: </label>
+        <div class="col-sm-6">
+            <textarea type="textarea" n:name=description class="form-control" placeholder="" rows="10" cols="100"></textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=photo class="col-sm-3 col-form-label">Fotka produktu: </label>
+        <div class="col-sm-6">
+            {if $product->photo != null}
+                <p>Stávající fotka: <img src="{$product->photo|dataStream}" class="img-responsive" style="width: 100px;"></p>
+                {/if}
+            <input type="file" n:name=photo class="form-control" placeholder="">
+        </div>
+    </div>
+    <!-- Dodělat zbytek formuláře-->            
+</form>
