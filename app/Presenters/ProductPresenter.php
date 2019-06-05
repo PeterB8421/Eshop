@@ -22,7 +22,6 @@ final class ProductPresenter extends BasePresenter {
     public function renderDefault($order = 'id'): void {
         $this->template->products = $this->eshopManager->getAll($order);
         $this->template->user = $this->getUser();
-        $this->template->userIdentity = $this->getUser()->getIdentity();
         \Tracy\Debugger::barDump($this->template->user);
     }
 
