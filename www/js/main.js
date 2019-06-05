@@ -1,4 +1,8 @@
 $(function(){
+    setTimeout(function(){
+        $(".alert").hide(200);
+    },5000);
+    
     $.nette.init();
     $(".delete").click(function(){
        $(".modal-title").html("Opravdu chcete smazat produkt?")

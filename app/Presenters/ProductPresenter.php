@@ -5,39 +5,49 @@ declare(strict_types = 1);
 namespace App\Presenters;
 
 use App\Model\ProductManager;
+use App\Model\UserManager;
 use Nette\Application\UI\Form;
 use Tracy\Debugger;
 
 final class ProductPresenter extends BasePresenter {
 
-    private $manager;
+    private $eshopManager;
+    private $userManager;
 
-    function __construct(ProductManager $manager) {
-        $this->manager = $manager;
+    function __construct(ProductManager $manager, \App\Model\UserManager $usrMgr) {
+        $this->eshopManager = $manager;
+        $this->userManager = $usrMgr;
     }
 
     public function renderDefault($order = 'id'): void {
-        $this->template->products = $this->manager->getAll($order);
-        \Tracy\Debugger::barDump($this->template->products);
+        $this->template->products = $this->eshopManager->getAll($order);
+        $this->template->user = $this->getUser();
+        $this->template->userIdentity = $this->getUser()->getIdentity();
+        \Tracy\Debugger::barDump($this->template->user);
     }
 
     public function renderView($id) {
-        $this->template->product = $this->manager->getByID($id);
+        $this->template->product = $this->eshopManager->getByID($id);
+        $this->template->user = $this->getUser();
+        $this->template->userIdentity = $this->getUser()->getIdentity();
     }
 
     public function renderCreate() {
-        
+        $this->template->user = $this->getUser();
+        $this->template->userIdentity = $this->getUser()->getIdentity();
     }
-    
-    public function renderEdit($id){
-        $product = $this->manager->getByID($id);
+
+    public function renderEdit($id) {
+        $this->template->user = $this->getUser();
+        $this->template->userIdentity = $this->getUser()->getIdentity();
+        $product = $this->eshopManager->getByID($id);
         $this->template->product = $product;
         $this['productForm']->setDefaults($product->toArray());
     }
 
-        public function handleDelete($id){
-        $this->manager->deleteRecord($id);
-        $this->flashMessage("Produkt úspěšně smazán.","warning");
+    public function handleDelete($id) {
+        $this->eshopManager->deleteRecord($id);
+        $this->flashMessage("Produkt úspěšně smazán.", "warning");
         //$this->redraw("vypis");
     }
 
@@ -64,7 +74,6 @@ final class ProductPresenter extends BasePresenter {
     }
 
     public function productFormSucceeded(Form $form, $data) {
-        Debugger::barDump($data['photo']->getContents());
         $id = $this->getParameter("id");
         if (!$id) {
             if ($data['photo']->hasFile()) {
@@ -72,16 +81,15 @@ final class ProductPresenter extends BasePresenter {
             } else {
                 $data['photo'] = NULL;
             }
-            $this->manager->createRecord($data);
+            $this->eshopManager->createRecord($data);
             $this->flashMessage("Produkt byl vytvořen.", "success");
-        }
-        else{
+        } else {
             if ($data['photo']->hasFile()) {
                 $data['photo'] = $data['photo']->getContents();
             } else {
-                $data['photo'] = $this->manager->getByID($id)->photo;
+                $data['photo'] = $this->eshopManager->getByID($id)->photo;
             }
-            $this->manager->updateRecord($id, $data);
+            $this->eshopManager->updateRecord($id, $data);
             $this->flashMessage("Produkt byl upraven.", "success");
         }
         $this->redirect("default");

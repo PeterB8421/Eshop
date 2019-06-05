@@ -12,17 +12,17 @@ if (!isset($_SERVER['argv'][3])) {
 	echo '
 Add new user to database.
 
-Usage: create-user.php <name> <email> <password>
+Usage: create-user.php <role> <name> <username> <surname> <email> <address> <password>
 ';
 	exit(1);
 }
 
-[, $name, $email, $password] = $_SERVER['argv'];
+[,$role, $name, $username, $surname, $email, $address, $password] = $_SERVER['argv'];
 
 $manager = $container->getByType(App\Model\UserManager::class);
 
 try {
-	$manager->add($name, $email, $password);
+	$manager->add($role, $name, $username, $surname, $email, $address, $password, NULL);
 	echo "User $name was added.\n";
 
 } catch (App\Model\DuplicateNameException $e) {

@@ -1,4 +1,12 @@
 {block content}
-<h1 n:block=title>You have been signed out</h1>
+<h1 n:block=title>Byli jste odhlášeni</h1>
 
-<p><a n:href="in">Sign in to another account</a></p>
+<p><a n:href="in">Přihlásit se do jiného účtu</a></p>
+<p><a n:href="Product:" class="btn btn-primary">Přejít na hlavní stránku</a></p>
+
+{block scripts}
+<script>
+    setTimeout(function(){
+        document.location.href = "/product";
+    },10000);
+</script>
