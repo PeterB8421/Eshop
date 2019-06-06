@@ -39,7 +39,7 @@
                         <li><a n:href="Sign:in" class="btn btn-primary">Přihlášení</a></li>
                         <li><a n:href="Sign:up" class="btn btn-default">Registrace</a></li>
                         {else}
-                        <li><a href="#">Uživatel: <b>{$user->getIdentity()->data['username']}</b> | Email: <b>{$user->getIdentity()->data['email']}</b></a></li>
+                        <li>Uživatel: <a n:href="User:view $user->getIdentity()->data['id']">{$user->getIdentity()->data['username']}</a></li>
                         <li><a n:href="Sign:out" class="btn btn-dark">Odhlášení</a></li>
                         {/if}
                     </ul>

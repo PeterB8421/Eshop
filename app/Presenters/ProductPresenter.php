@@ -28,15 +28,30 @@ final class ProductPresenter extends BasePresenter {
     public function renderView($id) {
         $this->template->product = $this->eshopManager->getByID($id);
         $this->template->user = $this->getUser();
-        $this->template->userIdentity = $this->getUser()->getIdentity();
     }
 
     public function renderCreate() {
+        if(!$this->getUser()->isLoggedIn()){
+            $this->flashMessage("Pro vytváření produktů musíte být přihlášeni","warning");
+            $this->redirect("Sign:in");
+        }
+        elseif($this->getUser()->getIdentity()->roles[0] == "registered"){
+            $this->flashMessage("Pro přidávání produktů nemáte dostatečná práva","error");
+            $this->redirect("Product:default");
+        }
         $this->template->user = $this->getUser();
         $this->template->userIdentity = $this->getUser()->getIdentity();
     }
 
     public function renderEdit($id) {
+        if(!$this->getUser()->isLoggedIn()){
+            $this->flashMessage("Pro vytváření produktů musíte být přihlášeni","warning");
+            $this->redirect("Sign:in");
+        }
+        elseif($this->getUser()->getIdentity()->roles[0] == "registered"){
+            $this->flashMessage("Pro editaci produktů nemáte dostatečná práva","error");
+            $this->redirect("Product:default");
+        }
         $this->template->user = $this->getUser();
         $this->template->userIdentity = $this->getUser()->getIdentity();
         $product = $this->eshopManager->getByID($id);
@@ -45,9 +60,16 @@ final class ProductPresenter extends BasePresenter {
     }
 
     public function handleDelete($id) {
+        if(!$this->getUser()->isLoggedIn()){
+            $this->flashMessage("Pro vytváření produktů musíte být přihlášeni","warning");
+            $this->redirect("Sign:in");
+        }
+        elseif($this->getUser()->getIdentity()->roles[0] == "registered"){
+            $this->flashMessage("Pro mazání produktů nemáte dostatečná práva","error");
+            $this->redirect("Product:default");
+        }
         $this->eshopManager->deleteRecord($id);
         $this->flashMessage("Produkt úspěšně smazán.", "warning");
-        //$this->redraw("vypis");
     }
 
     public function createComponentProductForm() {

@@ -1,0 +1,13 @@
+{* Latte template *}
+
+{block content}
+<h1>Výpis uživatele</h1>
+<a n:href="default" role="button" class="btn btn-primary">&lt; Zpět na výpis</a>
+<h2>Uživatelské jméno: <span style="color: gray;">{$usr->username}</span></h2>
+<p>Jméno: <b>{$usr->name}</b></p>
+<p>Příjmení: <b>{$usr->surname}</b></p>
+<p>Email: <b>{$usr->email}</b></p>
+<p>Adresa: <b>{$usr->address}</b></p>
+<p>Role: <b>{$usr->role}</b></p>
+<p>Datum registrace: <b>{$usr->creationDate|date:'j. n. Y'}</b></p>
+<img src="{if $usr->photo != null}{$usr->photo|dataStream}{else}{$basePath}/images/default.png{/if}" class="img-responsive" style="width: 200px;">

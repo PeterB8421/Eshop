@@ -88,8 +88,8 @@ final class UserManager implements Nette\Security\IAuthenticator {
         }
     }
 
-    public function getAll() {
-        return $this->database->table(self::TABLE_NAME)->fetchAll();
+    public function getAll($order) {
+        return $this->database->table(self::TABLE_NAME)->order($order)->fetchAll();
     }
 
     public function getByID($id) {

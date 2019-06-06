@@ -1,0 +1,34 @@
+<title>Produkty</title>
+{block content}
+<h1>Výpis uživatelů</h1>
+<p> 
+    {snippet vypis}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th><a n:href="default 'id'">ID</a></th>
+                <th><a n:href="default 'name'">Jméno</a></th>
+                <th><a n:href="default 'username'">Uživatelské jméno</a></th>
+                <th><a n:href="default 'surname'">Příjmení</a></th>
+                <th><a n:href="default 'email'">Email</a></th>
+                <th><a n:href="default 'creationDate'">Datum vytvoření</a></th>
+                <th>Fotka</th>
+                <th>Akce</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $users as $usr}
+                <tr>
+                    <td>{$usr->id}</td>
+                    <td>{$usr->name}</td>
+                    <td><a n:href="view $usr->id">{$usr->username}</a></td>
+                    <td>{$usr->surname}</td>
+                    <td>{$usr->email}</td>
+                    <td>{$usr->creationDate|date:'j. n. Y'}</td>
+                    <td><img src="{if $usr->photo != null}{$usr->photo|dataStream}{else}{$basePath}/images/default.png{/if}" class="img-responsive" style="width: 50px;"></td>
+                    <td><a n:href="edit $usr->id" class="btn btn-primary">Upravit</a></td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+{/snippet}   

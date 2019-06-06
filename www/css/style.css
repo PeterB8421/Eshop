@@ -1,5 +1,5 @@
 h1 {
-	color: #3484D2;
+	color: darkblue;
 }
 
 a[href^="#error:"] {
@@ -35,4 +35,9 @@ form .required label {
 .btn-dark:hover{
     background-color: lightgray !important;
     color: black !important;
+}
+
+.alert-error{
+    background-color: rgba(255,0,0,0.5);
+    color: white;
 }

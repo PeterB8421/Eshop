@@ -2,9 +2,9 @@
 
 {block content}
 <h1 class="jumbotron">Výpis produktu</h1>
-<a n:href="default" role="button" class="btn btn-primary">Zpět na výpis</a>
+<a n:href="default" role="button" class="btn btn-primary">&lt; Zpět na výpis</a>
 <h2>{$product->name}</h2>
-<img src="{if $product->photo != null}{$product->photo|dataStream}{else}{$basePath}/images/default.png{/if}" class="img-responsive" style="width: 100px;">
+<img src="{if $product->photo != null}{$product->photo|dataStream}{else}{$basePath}/images/default.png{/if}" class="img-responsive" style="width: 200px;">
 <p>Kategorie: <b style="color: gray;">{$product->category}</b></p>
 <p>{$product->description}</p>
 <p><b>{$product->price}</b> Kč</p>
