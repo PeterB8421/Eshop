@@ -36,12 +36,19 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         {if !$user->isLoggedIn()}
-                        <li><a n:href="Sign:in" class="btn btn-primary">Přihlášení</a></li>
-                        <li><a n:href="Sign:up" class="btn btn-default">Registrace</a></li>
-                        {else}
-                        <li>Uživatel: <a n:href="User:view $user->getIdentity()->data['id']">{$user->getIdentity()->data['username']}</a></li>
-                        <li><a n:href="Sign:out" class="btn btn-dark">Odhlášení</a></li>
-                        {/if}
+                            <li><a n:href="Sign:in" class="btn btn-primary">Přihlášení</a></li>
+                            <li><a n:href="Sign:up" class="btn btn-default">Registrace</a></li>
+                            {else}
+                            <li>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Uživatel: 
+                                    <b>{$user->getIdentity()->data['username']}</b> <span class="caret"></span>
+                                    <ul class="dropdown-menu">
+                                        <li><a n:href="User:view $user->getIdentity()->data['id']">Můj profil</a></li>
+                                        <li><a href="#">Moje objednávky</a></li>
+                                        <li><a n:href="Sign:out" class="btn btn-dark">Odhlášení</a></li>
+                                    </ul>
+                            </li>
+                            {/if}
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->

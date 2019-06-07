@@ -2,7 +2,9 @@
 
 {block content}
 <h1>Výpis uživatele</h1>
+{if $user->getIdentity()->roled[0] == "admin"}
 <a n:href="default" role="button" class="btn btn-primary">&lt; Zpět na výpis</a>
+{/if}
 <h2>Uživatelské jméno: <span style="color: gray;">{$usr->username}</span></h2>
 <p>Jméno: <b>{$usr->name}</b></p>
 <p>Příjmení: <b>{$usr->surname}</b></p>
@@ -11,3 +13,9 @@
 <p>Role: <b>{$usr->role}</b></p>
 <p>Datum registrace: <b>{$usr->creationDate|date:'j. n. Y'}</b></p>
 <img src="{if $usr->photo != null}{$usr->photo|dataStream}{else}{$basePath}/images/default.png{/if}" class="img-responsive" style="width: 200px;">
+<br>
+{if $user->getIdentity()->data['id'] == $usr->id}
+    <a n:href="User:edit $usr->id" class="btn btn-primary">Upravit profil</a>
+{elseif $user->getIdentity()->roles[0] == "admin"}
+    <a n:href="User:edit $usr->id" class="btn btn-primary">Upravit</a>
+{/if}

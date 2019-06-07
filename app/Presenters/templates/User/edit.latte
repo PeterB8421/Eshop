@@ -1,3 +1,78 @@
 {* Latte template *}
 
 {block content}
+<h2 class="jumbotron">Editace profilu</h2>
+<a n:href="Product:default" role="button" class="btn btn-default">&lt;&lt; Zpět na hlavní stránku</a>
+{import '../components/bootstrap-form.latte'}
+
+<form n:name="userForm" class="ajax">
+    {if $form->ownErrors}
+        <div class="alert alert-danger">
+            <ul class=error n:ifcontent>
+                <li n:foreach="$form->ownErrors as $error">{$error}</li>
+            </ul>
+        </div>
+    {/if}
+    <div class="form-group row">
+        <label n:name=username class="col-sm-3 col-form-label"><span class="required">*</span> Uživatelské jméno: </label>
+        <div class="col-sm-6">
+            <input type="text" n:name=username class="form-control" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=name class="col-sm-3 col-form-label"><span class="required">*</span> Jméno: </label>
+        <div class="col-sm-6">
+            <input type="text" n:name=name class="form-control">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=surname class="col-sm-3 col-form-label"><span class="required">*</span>Příjmení: </label>
+        <div class="col-sm-6">
+            <input type="text" n:name=surname class="form-control" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=email class="col-sm-3 col-form-label"><span class="required">*</span>Email: </label>
+        <div class="col-sm-6">
+            <input type="email" n:name=email class="form-control" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=address class="col-sm-3 col-form-label"><span class="required">*</span>Adresa: </label>
+        <div class="col-sm-6">
+            <input type="text" n:name=address class="form-control" placeholder="">
+        </div>
+    </div>
+    {if $user->getIdentity()->roles[0] == "admin"}
+     <div class="form-group row">
+         <label n:name=role class="col-sm-3 col-form-label"><span class="required">*</span>Role: </label>
+         <div class="col-sm-6">
+             <select n:name=role class="form-control" placeholder="">
+                 <option value="registered" {if $user->getIdentity()->roles[0] == "registered"} selected{/if}>Registrovaný</option>
+                 <option value="productManager" {if $user->getIdentity()->roles[0] == "productManager"} selected{/if}>Manažer</option>
+                 <option value="admin" {if $user->getIdentity()->roles[0] == "admin"} selected{/if}>Administrátor</option>
+             </select>
+         </div>
+     </div>
+     {/if}
+    <div class="form-group row">
+        <label n:name=photo class="col-sm-3 col-form-label">Profilová fotka: </label>
+        <div class="col-sm-6">
+            {if $user->getIdentity()->data['photo'] != null}
+                <p>Stávající fotka: <img src="{$product->photo|dataStream}" class="img-responsive" style="width: 100px;"></p>
+                <p style="font-size: 12pt; color: darkred;">Pokud nenahrajete novou fotku, zůstane vám stávající.</p>
+                {/if}
+            <input type="file" n:name=photo class="form-control" placeholder="">
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <input type="submit" n:name=submit class="btn btn-primary" placeholder="Upravit">
+        </div>
+        <div class="col-sm-2">
+            <a n:href="User:view $user->getIdentity()->data['id']" class="btn btn-dark">Zrušit</a>
+        </div>
+    </div>
+
+</form>

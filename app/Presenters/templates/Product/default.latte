@@ -1,8 +1,7 @@
 <title>Produkty</title>
 {block content}
 <h1 class="jumbotron">Výpis produktů</h1>
-<p>
-    Produkty: 
+<p> 
     {snippet vypis}
     <table class="table table-hover">
         <thead>
@@ -25,18 +24,21 @@
                     <td>{$product->description}</td>
                     <td><img src="{if $product->photo != null}{$product->photo|dataStream}{else}{$basePath}/images/default.png{/if}" class="img-responsive" style="width: 50px;"></td>
                     <td>{$product->price}</td>
-                    {if $user->isLoggedIn() and $user->getIdentity()->roles[0] == "admin" }<td><a n:href="edit $product->id" role="button" class="btn btn-primary">Upravit</a><a role="button" class="btn btn-danger ajax" n:href="delete! $product->id">Smazat</a></td>
-                    {elseif $user->isLoggedIn() and $user->getIdentity()->roles[0] == "productManager"}<td><a n:href="edit $product->id" role="button" class="btn btn-primary">Upravit</a><a role="button" class="btn btn-danger ajax" n:href="delete! $product->id">Smazat</a></td>{/if}
+                    {if $user->isLoggedIn() and $user->getIdentity()->roles[0] == "admin" }<td><a n:href="edit $product->id" role="button" class="btn btn-primary">Upravit</a><a role="button" class="btn btn-danger delete" href="#" data-toggle="modal" data-id="{$product->id}" data-name="{$product->name}">Smazat</a></td>
+                    {elseif $user->isLoggedIn() and $user->getIdentity()->roles[0] == "productManager"}<td><a n:href="edit $product->id" role="button" class="btn btn-primary">Upravit</a><a role="button" class="btn btn-danger delete" href="#" data-toggle="modal" data-id="{$product->id}" data-name="{$product->name}">Smazat</a></td>{/if}
                 </tr>
             {/foreach}
         </tbody>
     </table>
 {/snippet}    
-{if $user->isLoggedIn() and $user->getIdentity()->roles[0] == "admin"}<a n:href="create" role="button" class="btn btn-success">Vytvořit produkt</a>
-{elseif $user->isLoggedIn() and $user->getIdentity()->roles[0] == "productManager"}<a n:href="create" role="button" class="btn btn-success">Vytvořit produkt</a>{/if}
+{if $user->isLoggedIn() and $user->getIdentity()->roles[0] == "admin"}<a n:href="create" role="button" class="btn btn-success">+ Vytvořit produkt</a>
+{elseif $user->isLoggedIn() and $user->getIdentity()->roles[0] == "productManager"}<a n:href="create" role="button" class="btn btn-success">+ Vytvořit produkt</a>{/if}
 </p>
+{if $user->isLoggedIn() and $user->getIdentity()->roles[0] == "admin"}
+    <a n:href="User:default" class="btn btn-default">Výpis uživatelů</a>
+{/if}
 
-<!--<div class="modal" tabindex="-1" role="dialog" id="deleteDialog">
+<div class="modal" tabindex="-1" role="dialog" id="deleteDialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -45,15 +47,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
             <div class="modal-footer">
-                <a id="modal-confirm" role="button" class="btn btn-danger" data-dismiss="modal">Smazat</a>
-                <a id="modal-cancel" role="button" class="btn btn-secondary" data-dismiss="modal">Zrušit</a>
+                <a id="modal-confirm" role="button" class="btn btn-danger ajax" data-dismiss="modal">Smazat</a>
+                <a id="modal-cancel" role="button" class="btn btn-dark" data-dismiss="modal">Zrušit</a>
             </div>
         </div>
     </div>
-</div>-->
+</div>
 
 {/block}

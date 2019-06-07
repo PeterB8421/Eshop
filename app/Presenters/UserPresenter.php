@@ -48,8 +48,8 @@ final class UserPresenter extends BasePresenter {
         if (!$this->getUser()->isLoggedIn()) {
             $this->flashMessage("Pro práci s uživateli musíte být přihlášeni", "warning");
             $this->redirect("Sign:in");
-        } elseif ($this->getUser()->getIdentity()->roles[0] != "admin") {
-            $this->flashMessage("Pro editaci uživatelů nemáte dostatečná práva", "error");
+        } elseif ($this->getUser()->getIdentity()->roles[0] != "admin" && $this->getUser()->getIdentity()->data['id'] != $this->getParameter("id")) {
+            $this->flashMessage("Nemůžete zasahovat do ostatních uživatelů", "error");
             $this->redirect("Product:default");
         }
         $this->template->user = $this->getUser();
@@ -57,7 +57,7 @@ final class UserPresenter extends BasePresenter {
         $this['userForm']->setDefaults($user->toArray());
     }
 
-    public function createComponentProductForm() {
+    public function createComponentUserForm() {
         $form = new Form;
 
         $form->addText('name', 'Jméno: ')->setRequired()->addRule(Form::MAX_LENGTH, "Jméno může obsahovat max. 50 znaků.", 50);
@@ -86,10 +86,10 @@ final class UserPresenter extends BasePresenter {
         if ($data['photo']->hasFile()) {
             $data['photo'] = $data['photo']->getContents();
         } else {
-            $data['photo'] = $this->eshopManager->getByID($id)->photo;
+            $data['photo'] = $this->userManager->getByID($id)->photo;
         }
         $this->userManager->edit($id, $data);
-        $this->flashMessage("Uživatel byl upraven.", "success");
+        $this->flashMessage("Profil byl upraven.", "success");
         $this->redirect("default");
     }
 
