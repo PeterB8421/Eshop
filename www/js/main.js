@@ -9,5 +9,9 @@ $(function(){
        $("#deleteDialog").modal('show'); 
     });
     
+    $("#modal-confirm").click(function(){
+       document.location.replace($("#modal-confirm").attr("href")); 
+    });
+    
     $.nette.init();
 });

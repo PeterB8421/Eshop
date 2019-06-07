@@ -54,6 +54,7 @@ final class UserPresenter extends BasePresenter {
         }
         $this->template->user = $this->getUser();
         $user = $this->userManager->getByID($id);
+        $this->template->usr = $user;
         $this['userForm']->setDefaults($user->toArray());
     }
 
@@ -77,6 +78,8 @@ final class UserPresenter extends BasePresenter {
 
         $form->addSubmit('submit', "Upravit")->setAttribute("class", "btn btn-primary");
         $form->onSuccess[] = array($this, 'userFormSucceeded');
+        
+        Debugger::barDump($form);
 
         return $form;
     }
@@ -87,6 +90,9 @@ final class UserPresenter extends BasePresenter {
             $data['photo'] = $data['photo']->getContents();
         } else {
             $data['photo'] = $this->userManager->getByID($id)->photo;
+        }
+        if($data['role'] == NULL){
+            $data['role'] = $this->userManager->getByID($id)->role;
         }
         $this->userManager->edit($id, $data);
         $this->flashMessage("Profil byl upraven.", "success");

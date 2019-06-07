@@ -48,9 +48,9 @@
          <label n:name=role class="col-sm-3 col-form-label"><span class="required">*</span>Role: </label>
          <div class="col-sm-6">
              <select n:name=role class="form-control" placeholder="">
-                 <option value="registered" {if $user->getIdentity()->roles[0] == "registered"} selected{/if}>Registrovaný</option>
-                 <option value="productManager" {if $user->getIdentity()->roles[0] == "productManager"} selected{/if}>Manažer</option>
-                 <option value="admin" {if $user->getIdentity()->roles[0] == "admin"} selected{/if}>Administrátor</option>
+                 <option value="registered" {if $usr->role == "registered"} selected{/if}>Registrovaný</option>
+                 <option value="productManager" {if $usr->role == "productManager"} selected{/if}>Manažer</option>
+                 <option value="admin" {if $usr->role == "admin"} selected{/if}>Administrátor</option>
              </select>
          </div>
      </div>
@@ -58,8 +58,8 @@
     <div class="form-group row">
         <label n:name=photo class="col-sm-3 col-form-label">Profilová fotka: </label>
         <div class="col-sm-6">
-            {if $user->getIdentity()->data['photo'] != null}
-                <p>Stávající fotka: <img src="{$product->photo|dataStream}" class="img-responsive" style="width: 100px;"></p>
+            {if $usr->photo != null}
+                <p>Stávající fotka: <img src="{$usr->photo|dataStream}" class="img-responsive" style="width: 100px;"></p>
                 <p style="font-size: 12pt; color: darkred;">Pokud nenahrajete novou fotku, zůstane vám stávající.</p>
                 {/if}
             <input type="file" n:name=photo class="form-control" placeholder="">
@@ -71,7 +71,7 @@
             <input type="submit" n:name=submit class="btn btn-primary" placeholder="Upravit">
         </div>
         <div class="col-sm-2">
-            <a n:href="User:view $user->getIdentity()->data['id']" class="btn btn-dark">Zrušit</a>
+            <a n:href="User:view $usr->id" class="btn btn-dark">Zrušit</a>
         </div>
     </div>
 

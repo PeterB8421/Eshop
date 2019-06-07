@@ -2,7 +2,7 @@
 
 {block content}
 <h1>Výpis uživatele</h1>
-{if $user->getIdentity()->roled[0] == "admin"}
+{if $user->getIdentity()->roles[0] == "admin"}
 <a n:href="default" role="button" class="btn btn-primary">&lt; Zpět na výpis</a>
 {/if}
 <h2>Uživatelské jméno: <span style="color: gray;">{$usr->username}</span></h2>
