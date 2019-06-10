@@ -43,18 +43,16 @@
             <input type="text" n:name=address class="form-control" placeholder="">
         </div>
     </div>
-    {if $user->getIdentity()->roles[0] == "admin"}
      <div class="form-group row">
          <label n:name=role class="col-sm-3 col-form-label"><span class="required">*</span>Role: </label>
          <div class="col-sm-6">
-             <select n:name=role class="form-control" placeholder="">
+             <select n:name=role class="form-control" {if $user->getIdentity()->roles[0] != "admin"}disabled{/if} placeholder="">
                  <option value="registered" {if $usr->role == "registered"} selected{/if}>Registrovaný</option>
                  <option value="productManager" {if $usr->role == "productManager"} selected{/if}>Manažer</option>
                  <option value="admin" {if $usr->role == "admin"} selected{/if}>Administrátor</option>
              </select>
          </div>
      </div>
-     {/if}
     <div class="form-group row">
         <label n:name=photo class="col-sm-3 col-form-label">Profilová fotka: </label>
         <div class="col-sm-6">

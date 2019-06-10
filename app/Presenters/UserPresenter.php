@@ -39,9 +39,9 @@ final class UserPresenter extends BasePresenter {
         $this->redirect("Sign:up");
     }
     
-    public function actionDelete(){
-        $this->flashMessage("Takhle to tady nefunguje","error");
-        $this->redirect("Product:default");
+    public function handleDelete($id){
+        $this->flashMessage("Uživatel smazán","warning");
+        $this->userManager->delete($id);
     }
 
     public function renderEdit($id) {
@@ -79,13 +79,13 @@ final class UserPresenter extends BasePresenter {
         $form->addSubmit('submit', "Upravit")->setAttribute("class", "btn btn-primary");
         $form->onSuccess[] = array($this, 'userFormSucceeded');
         
-        Debugger::barDump($form);
 
         return $form;
     }
 
     public function userFormSucceeded(Form $form, $data) {
         $id = $this->getParameter("id");
+        Debugger::barDump($id);
         if ($data['photo']->hasFile()) {
             $data['photo'] = $data['photo']->getContents();
         } else {
@@ -96,7 +96,7 @@ final class UserPresenter extends BasePresenter {
         }
         $this->userManager->edit($id, $data);
         $this->flashMessage("Profil byl upraven.", "success");
-        $this->redirect("default");
+        $this->redirect("Product:default");
     }
 
 }

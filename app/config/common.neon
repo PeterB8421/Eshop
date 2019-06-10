@@ -24,6 +24,7 @@ database:
 
 
 services:
+	- App\Model\OrderManager
 	- App\Model\UserManager
 	- App\Model\ProductManager
 	- App\Forms\FormFactory

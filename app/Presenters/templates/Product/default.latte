@@ -35,7 +35,7 @@
 {elseif $user->isLoggedIn() and $user->getIdentity()->roles[0] == "productManager"}<a n:href="create" role="button" class="btn btn-success">+ Vytvořit produkt</a>{/if}
 </p>
 {if $user->isLoggedIn() and $user->getIdentity()->roles[0] == "admin"}
-    <a n:href="User:default" class="btn btn-default">Výpis uživatelů</a>
+    <a n:href="User:default" class="btn btn-default"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Výpis uživatelů</a>
 {/if}
 
 <div class="modal" tabindex="-1" role="dialog" id="deleteDialog">

@@ -14,7 +14,6 @@ final class UserManager implements Nette\Security\IAuthenticator {
 
     use Nette\SmartObject;
 
-    private
 
     const
             TABLE_NAME = 'users',
@@ -98,6 +97,10 @@ final class UserManager implements Nette\Security\IAuthenticator {
 
     public function edit($id, $data) {
         $this->database->table(self::TABLE_NAME)->where('id', $id)->update($data);
+    }
+    
+    public function delete($id){
+        $this->database->table(self::TABLE_NAME)->where('id',$id)->delete();
     }
 
 }
