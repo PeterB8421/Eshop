@@ -31,6 +31,10 @@ final class OrderManager {
         return $this->database->table(self::TABLE_NAME)->order($order)->fetchAll();
     }
     
+    function getAllByUser($id, $order){
+        return $this->database->table(self::TABLE_NAME)->where('user_id',$id)->order($order)->fetchAll();
+    }
+            
     function getByID($id){
         return $this->database->table(self::TABLE_NAME)->get($id);
     }

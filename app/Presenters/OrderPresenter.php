@@ -23,12 +23,30 @@ final class OrderPresenter extends BasePresenter {
     }
 
     public function renderDefault($order = 'id'): void {
-        $this->template->orders = $this->orderManager->getAll($order);
+        if (!$this->getUser()->isLoggedIn()) {
+            $this->flashMessage("Pro prohlížení objednávek musíte být přihlášeni", "warning");
+            $this->redirect("Sign:in");
+        }
+
+        if ($this->getUser()->getIdentity()->roles[0] != "registered") {
+            $this->template->orders = $this->orderManager->getAll($order);
+        } else {
+            $this->template->orders = $this->orderManager->getAllByUser($this->getUser()->getIdentity()->data['id'], $order);
+        }
         $this->template->user = $this->getUser();
         \Tracy\Debugger::barDump($this->template->user);
     }
 
     public function renderView($id) {
+        if (!$this->getUser()->isLoggedIn()) {
+            $this->flashMessage("Pro prohlížení objednávek musíte být přihlášeni", "warning");
+            $this->redirect("Sign:in");
+        }
+        
+        if($this->getUser()->getIdentity()->roles[0] == "registered" && $this->getUser()->getIdentity()->data['id'] != $this->orderManager->getByID($id)->user_id){
+            $this->flashMessage("Nesmíte prohlížet cizí objednávky","error");
+            $this->redirect("Order:default");
+        }
         $this->template->order = $this->orderManager->getByID($id);
         $this->template->user = $this->getUser();
     }
@@ -60,13 +78,13 @@ final class OrderPresenter extends BasePresenter {
 
     public function handleDelete($id) {
         if (!$this->getUser()->isLoggedIn()) {
-            $this->flashMessage("Pro vytváření produktů musíte být přihlášeni", "warning");
+            $this->flashMessage("Pro mazání objednávek musíte být přihlášeni", "warning");
             $this->redirect("Sign:in");
         } elseif ($this->getUser()->getIdentity()->roles[0] == "registered") {
-            $this->flashMessage("Pro mazání produktů nemáte dostatečná práva", "error");
+            $this->flashMessage("Pro mazání objednávek nemáte dostatečná práva", "error");
             $this->redirect("Product:default");
         }
-        $this->eshopManager->deleteRecord($id);
+        $this->orderManager->deleteRecord($id);
         $this->flashMessage("Produkt úspěšně smazán.", "warning");
     }
 

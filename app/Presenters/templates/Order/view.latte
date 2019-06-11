@@ -1,0 +1,22 @@
+{* Latte template *}
+
+{block content}
+<h1>Výpis objednávky</h1>
+<a n:href="default" role="button" class="btn btn-primary">&lt; Zpět na výpis</a>
+<h2>Objednávka číslo: <span style="color: gray;">{$order->id}</span></h2>
+<p>Typ platby: <b>{$order->payType}</b></p>
+<p>Způsob doručení: <b>{$order->deliveryType}</b></p>
+<p>Objednané produkty: <b>{$order->ref('product','product_id')->name}</b>
+    {if $order->ref('product','product_id')->photo != null}<img src="{$order->ref('product','product_id')->photo|dataStream}" style="width: 50px;">{/if}</p>
+<p>Poznámka k objednávce: <span style="color: lightgray;">{$order->note}</span></p>
+<hr>
+<p>Jméno a příjmení příjemce: <b>{$order->ref('users','user_id')->name} {$order->ref('users','user_id')->surname}</b></p>
+<p>Adresa doručení: <b>{$order->ref('users','user_id')->address}</b></p>
+<hr>
+<p>Datum objednání: <b>{$order->created|date:'j. n. Y'}</b></p>
+<br>
+{if $user->getIdentity()->data['id'] == $order->id}
+    <a n:href="User:edit $order->id" class="btn btn-primary">Upravit profil</a>
+{elseif $user->getIdentity()->roles[0] == "admin"}
+    <a n:href="User:edit $order->id" class="btn btn-primary">Upravit</a>
+{/if}

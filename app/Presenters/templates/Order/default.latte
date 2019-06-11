@@ -7,12 +7,12 @@
         <thead>
             <tr>
                 <th><a n:href="default 'id'">ID</a></th>
-                <th>Popis objednávky</th>
                 <th><a n:href="default 'payType'">Typ platby</a></th>
                 <th><a n:href="default 'deliveryType'">Způsob doručení</a></th>
                 <th><a n:href="default 'user_id'">Uživatel</a></th>
                 <th><a n:href="default 'product_id'">Objednané produkty</a></th>
                 <th><a n:href="default 'created'">Datum vytvoření</a></th>
+                <th>Popis objednávky</th>
                 <th>Akce</th>
             </tr>
         </thead>
@@ -20,13 +20,13 @@
             {foreach $orders as $order}
                 <tr>
                     <td><a n:href="view $order->id">{$order->id}</a></td>
-                    <td>{$order->note}</td>
                     <td>{$order->payType}</td>
                     <td>{$order->deliveryType}</td>
-                    <td></td>
+                    <td>{$order->ref('users','user_id')->username}</td>
                     <td>{$order->ref('product','product_id')->name}</td>
                     <td>{$order->created|date:'j. n. Y'}</td>
-                    <td><a n:href="view $order->id" class="btn btn-primary">Zobrazit</a><a n:href="edit $order->id" class="btn btn-primary">Upravit</a><a href="#" class="btn btn-danger">Smazat</a></td>
+                    <td>{$order->note}</td>
+                    <td><a n:href="view $order->id" class="btn btn-primary">Zobrazit</a><a n:href="edit $order->id" class="btn btn-primary">Upravit</a><a n:href="delete! $order->id" class="btn btn-danger">Smazat</a></td>
                 </tr>
             {/foreach}
         </tbody>
