@@ -5,7 +5,7 @@
 <a n:href="Product:default" role="button" class="btn btn-default">&lt;&lt; Zpět na hlavní stránku</a>
 {import '../components/bootstrap-form.latte'}
 
-<form n:name="userForm" class="ajax">
+<form n:name="userForm">
     {if $form->ownErrors}
         <div class="alert alert-danger">
             <ul class=error n:ifcontent>
@@ -13,12 +13,12 @@
             </ul>
         </div>
     {/if}
-    <div class="form-group row">
+<!--    <div class="form-group row">
         <label n:name=username class="col-sm-3 col-form-label"><span class="required">*</span> Uživatelské jméno: </label>
         <div class="col-sm-6">
             <input type="text" n:name=username class="form-control" placeholder="">
         </div>
-    </div>
+    </div>-->
     <div class="form-group row">
         <label n:name=name class="col-sm-3 col-form-label"><span class="required">*</span> Jméno: </label>
         <div class="col-sm-6">
@@ -43,10 +43,10 @@
             <input type="text" n:name=address class="form-control" placeholder="">
         </div>
     </div>
-     <div class="form-group row">
+<div class="form-group row" {if $user->getIdentity()->roles[0] != "admin"}hidden{/if}>
          <label n:name=role class="col-sm-3 col-form-label"><span class="required">*</span>Role: </label>
          <div class="col-sm-6">
-             <select n:name=role class="form-control" {if $user->getIdentity()->roles[0] != "admin"}disabled{/if} placeholder="">
+             <select n:name=role class="form-control" placeholder="">
                  <option value="registered" {if $usr->role == "registered"} selected{/if}>Registrovaný</option>
                  <option value="productManager" {if $usr->role == "productManager"} selected{/if}>Manažer</option>
                  <option value="admin" {if $usr->role == "admin"} selected{/if}>Administrátor</option>

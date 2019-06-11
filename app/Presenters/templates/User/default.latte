@@ -26,7 +26,7 @@
                     <td>{$usr->email}</td>
                     <td>{$usr->creationDate|date:'j. n. Y'}</td>
                     <td><img src="{if $usr->photo != null}{$usr->photo|dataStream}{else}{$basePath}/images/default.png{/if}" class="img-responsive" style="width: 50px;"></td>
-                    <td><a n:href="edit $usr->id" class="btn btn-primary">Upravit</a></td>
+                    <td><a n:href="edit $usr->id" class="btn btn-primary">Upravit</a><a n:href="delete! $usr->id" class="btn btn-danger">Smazat</a></td>
                 </tr>
             {/foreach}
         </tbody>

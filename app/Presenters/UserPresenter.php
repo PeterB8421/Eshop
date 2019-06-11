@@ -62,7 +62,7 @@ final class UserPresenter extends BasePresenter {
         $form = new Form;
 
         $form->addText('name', 'Jméno: ')->setRequired()->addRule(Form::MAX_LENGTH, "Jméno může obsahovat max. 50 znaků.", 50);
-        $form->addText('username', 'Uživatelské jméno: ')->setRequired()->addRule(Form::MAX_LENGTH, "Uživatelské jméno může obsahovat max. 100 znaků.", 100);
+        //$form->addText('username', 'Uživatelské jméno: ')->setRequired()->addRule(Form::MAX_LENGTH, "Uživatelské jméno může obsahovat max. 100 znaků.", 100);
         $form->addText('surname', 'Příjmení: ')->setRequired()->addRule(Form::MAX_LENGTH, "Příjmení může obsahovat max. 50 znaků.", 50);
         $form->addEmail('email', 'Email: ')->setRequired()->addRule(Form::MAX_LENGTH, "Email může obsahovat max. 100 znaků.", 100);
         $form->addText('address', 'Adresa: ')->setRequired()->addRule(Form::MAX_LENGTH, "Adresa může obsahovat max. 200 znaků.", 200);
@@ -70,7 +70,7 @@ final class UserPresenter extends BasePresenter {
             'registered' => 'Registrovaný',
             'productManager' => 'Manažer',
             'admin' => 'Administrátor'
-        ])->setAttribute("class", "col-sm-4")->setRequired();
+        ])->setAttribute("class", "col-sm-4")->setRequired(FALSE);
         $form->addUpload('photo', 'Fotka: ')
                 ->addRule(Form::IMAGE, "Fotka musí být ve formátu JPEG, PNG nebo GIF.")
                 ->addRule(Form::MAX_FILE_SIZE, "Maximální velikost souboru je 16 MB.", 16 * 1024000)
@@ -96,7 +96,7 @@ final class UserPresenter extends BasePresenter {
         }
         $this->userManager->edit($id, $data);
         $this->flashMessage("Profil byl upraven.", "success");
-        $this->redirect("Product:default");
+        $this->redirect("view",$id);
     }
 
 }

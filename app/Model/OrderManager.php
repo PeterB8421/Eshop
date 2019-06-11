@@ -9,7 +9,7 @@ use Nette;
 /**
  * Eshop management (not really).
  */
-final class ProductManager {
+final class OrderManager {
 
     const
             TABLE_NAME = 'order',
