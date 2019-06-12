@@ -51,12 +51,13 @@ final class OrderPresenter extends BasePresenter {
         $this->template->user = $this->getUser();
     }
 
-    public function renderCreate() {
+    public function renderCreate($pr_id) {
         if (!$this->getUser()->isLoggedIn()) {
             $this->flashMessage("Pro vytvoření objednávky musíte být přihlášeni", "warning");
             $this->redirect("Sign:in");
         }
         $this->template->user = $this->getUser();
+        $this->template->product = $this->eshopManager->getByID($pr_id);
     }
 
     public function renderEdit($id) {
@@ -90,7 +91,8 @@ final class OrderPresenter extends BasePresenter {
 
     public function createComponentOrderForm() {
         $form = new Form;
-
+        
+        $form->addInteger('quantity','Počet kusů: ')->addRule(Form::RANGE,"Můžete objednat 0 - 99 kusů",[0,99])->setRequired();
         $form->addSelect('payType', 'Typ platby: ', [
             'kreditní karta' => 'Kreditní kartou (online)',
             'převodem' => 'Bankovní převod',
@@ -102,18 +104,33 @@ final class OrderPresenter extends BasePresenter {
             'Česká pošta' => 'Česká pošta',
             'PPL' => 'PPL'
         ])->setAttribute("class", "col-sm-4")->setRequired();
-        $form->addTextarea('note', 'Poznámka k objednávce: ')->setAttribute("rows", 50)->setAttribute("cols", 50);
+        $form->addTextarea('note', 'Poznámka k objednávce: ')->setAttribute("rows", 5)->setAttribute("cols", 50);
+        $form->addSelect('status','Stav objednávky: ',[
+            'processing' => 'Zpracování',
+            'accepted' => 'Přijata',
+            'delivering' => 'Odesláno',
+            'completed' => 'Dokončeno'
+        ]);
 
         $form->addSubmit('submit', "Objednat")->setAttribute("class", "btn btn-primary");
-        $form->onSuccess[] = array($this, 'productFormSucceeded');
+        $form->onSuccess[] = array($this, 'productFormSucceeded', $this->getUser());
 
         return $form;
     }
 
-    public function productFormSucceeded(Form $form, $data) {
+    public function orderFormSucceeded(Form $form, $data,$user) {
         $id = $this->getParameter("id");
+        $pr_id = $this->getParameter("pr_id");
+        $data['user_id'] = $user->getIdentity()->id;
+        $data['product_id'] = $pr_id;
+        if($id){
         $this->orderManager->updateRecord($id, $data);
         $this->flashMessage("Objednávka byla upravena.", "success");
+        }
+        else{
+            $this->orderManager->createRecord($data);
+            $this->flashMessage("Objednávka vytvořena","success");
+        }
         $this->redirect("default");
     }
 

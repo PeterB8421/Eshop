@@ -19,7 +19,9 @@ final class OrderManager {
             COLUMN_DELIVERY = 'deliveryType',
             COLUMN_PR_ID = 'product_id',
             COLUMN_USR_ID = 'user_id',
-            COLUMN_CREATED = 'created';
+            COLUMN_CREATED = 'created',
+            COLUMN_STATUS = 'status',
+            COLUMN_QUANTITY = 'quantity';
 
     private $database;
 

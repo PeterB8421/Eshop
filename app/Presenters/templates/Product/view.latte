@@ -8,4 +8,4 @@
 <p>Kategorie: <b style="color: gray;">{$product->category}</b></p>
 <p>{$product->description}</p>
 <p><b>{$product->price}</b> Kč</p>
-<p><a href="#" role="button" class="btn btn-success">Objednat</a></p>
+<p><a n:href="Order:create $product->id" role="button" class="btn btn-success">Objednat</a></p>

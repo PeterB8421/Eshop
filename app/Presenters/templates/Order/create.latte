@@ -1,0 +1,88 @@
+{* Latte template *}
+
+{block content}
+<h2 class="jumbotron">Vytvoření objednávky</h2>
+<a n:href="Product:default" role="button" class="btn btn-default">&lt;&lt; Zpět na hlavní stránku</a>
+{import '../components/bootstrap-form.latte'}
+<form n:name="orderForm" class="ajax">
+    {if $form->ownErrors}
+        <div class="alert alert-danger">
+            <ul class=error n:ifcontent>
+                <li n:foreach="$form->ownErrors as $error">{$error}</li>
+            </ul>
+        </div>
+    {/if}
+    <h3>Produkt</h3>
+    <div class="row">
+        <p>Objednávaný produkt: <b>{$product->name}</b> <img src="{$product->photo|dataStream}" class="img-responsive" style="width: 50px;"></p>
+    </div>
+    <div class="row">
+        <p>Cena za kus: <b id="price">{$product->price}</b> Kč</p>
+    </div>
+    <div class="form-group row">
+        <label n:name=quantity class="col-sm-3 col-form-label"><span class="required">*</span> Počet kusů: </label>
+        <div class="col-sm-6">
+            <input id="quantity" type="number" n:name=quantity value="1" step="1" min="1" max="99" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <p>Celková cena: <b style="color: darkred;" id="wholeprice"></b> Kč</p>
+    </div>
+    <hr>
+    <h3>Platba a doručení</h3>
+    <div class="form-group row">
+        <label n:name=payType class="col-sm-3 col-form-label"><span class="required">*</span> Typ platby: </label>
+        <div class="col-sm-4">
+            <select n:name=payType class="form-control" placeholder="">
+                <option value="kreditní karta">Kreditní karta</option>
+                <option value="převodem">Převodem</option>
+                <option value="hotově/dobírkou">Hotově/Dobírkou</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=deliveryType class="col-sm-3 col-form-label">Způsob doručení: </label>
+        <div class="col-sm-6">
+            <select n:name=deliveryType class="form-control" placeholder="">
+                <option value="osobní odběr">Osobní odběr</option>
+                <option value="Česká pošta">Česká pošta</option>
+                <option value="PPL">PPL</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=note class="col-sm-3 col-form-label">Poznámka k objednávce: </label>
+        <div class="col-sm-6">
+            <textarea n:name=note class="form-control" placeholder="" rows="5" cols="50"></textarea>
+        </div>
+    </div>
+
+    <hr>
+    <h3>Příjemce</h3>
+    <div class="row">
+        <p>Jméno a příjmení: <b>{$user->getIdentity()->name} {$user->getIdentity()->surname}</b></p>
+    </div>
+    <div class="row">
+        <p>Adresa doručení: <b>{$user->getIdentity()->address}</b></p>
+    </div>
+    Pokud nejsou vaše informace správně, můžete <a n:href="User:edit $user->getIdentity()->id" class="btn btn-primary">Upravit profil</a>
+    <hr>
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <input type="submit" n:name=submit class="btn btn-success" placeholder="Objednat">
+        </div>
+    </div>
+</form>
+
+{/block}
+{block scripts}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#wholeprice").html((($("#price").html()) * $("#quantity").val()).toFixed(2));
+        $("#quantity").on('change', function () {
+            $("#wholeprice").html((($("#price").html()) * $("#quantity").val()).toFixed(2));
+        })
+    })
+
+</script>
