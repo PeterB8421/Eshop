@@ -30,7 +30,8 @@
                     <td>{$order->quantity}</td>
                     <td>{$order->created|date:'j. n. Y'}</td>
                     <td>{$order->note}</td>
-                    <td><a n:href="view $order->id" class="btn btn-primary">Zobrazit</a><a n:href="edit $order->id" class="btn btn-primary">Upravit</a><a n:href="delete! $order->id" class="btn btn-danger">Smazat</a></td>
+                    <td><a n:href="view $order->id" class="btn btn-primary">Zobrazit</a><a n:href="edit $order->id" class="btn btn-primary">Upravit</a>
+                        <a data-toggle="modal" href="#" class="btn btn-danger delete" data-id="{$order->id}" data-name="{$order->ref('product','product_id')->name}" data-user="{$order->ref('users','user_id')->username}">Smazat</a></td>
                 </tr>
             {/foreach}
         </tbody>
@@ -38,3 +39,31 @@
 {/snippet}   
 <a n:href="Product:default" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Výpis produktů</a>
 {if $user->getIdentity()->roles[0] == "admin"}<a n:href="User:default" class="btn btn-default"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Výpis uživatelů</a>{/if}
+<div class="modal" tabindex="-1" role="dialog" id="deleteDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+            </div>
+            <div class="modal-footer">
+                <a id="modal-confirm" role="button" class="btn btn-danger ajax" data-dismiss="modal">Smazat</a>
+                <a id="modal-cancel" role="button" class="btn btn-dark" data-dismiss="modal">Zrušit</a>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block scripts}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    $(".delete").click(function () {
+        $(".modal-title").html("Opravdu chcete smazat objednávku produktu <b>" + $(this).attr("data-name") + "</b> uživatele <i style='color: gray;'>"+ $(this).attr("data-user") +"</i>?");
+        $("#modal-confirm").attr("href", "/order/?id=" + $(this).attr("data-id") + "&do=delete");
+        $("#deleteDialog").modal('show');
+    });
+
+    $("#modal-confirm").click(function () {
+        document.location.replace($("#modal-confirm").attr("href"));
+    });
+</script>

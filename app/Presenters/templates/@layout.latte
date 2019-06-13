@@ -44,7 +44,7 @@
                                     <b>{$user->getIdentity()->data['username']}</b> <span class="caret"></span>
                                     <ul class="dropdown-menu">
                                         <li><a n:href="User:view $user->getIdentity()->data['id']">Můj profil</a></li>
-                                        <li><a href="#">Moje objednávky</a></li>
+                                        <li><a n:href="Order:default">{if $user->getIdentity()->roles[0] == "registered"}Moje objednávky{else}Objednávky{/if}</a></li>
                                         <li><a n:href="Sign:out" class="btn btn-dark">Odhlášení</a></li>
                                     </ul>
                             </li>

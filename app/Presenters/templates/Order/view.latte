@@ -10,15 +10,35 @@
 <p>Objednané produkty: <b>{$order->ref('product','product_id')->name}</b>
     {if $order->ref('product','product_id')->photo != null}<img src="{$order->ref('product','product_id')->photo|dataStream}" style="width: 50px;">{/if}</p>
 <p>Počet kusů: <b>{$order->quantity}</b></p>
-<p>Poznámka k objednávce: <span style="color: lightgray;">{$order->note}</span></p>
+<p>Poznámka k objednávce: <textarea rows="2" cols="20" readonly class="col-sm-4 form-control">{$order->note}</textarea></p>
 <hr>
 <p>Jméno a příjmení příjemce: <b>{$order->ref('users','user_id')->name} {$order->ref('users','user_id')->surname}</b></p>
 <p>Adresa doručení: <b>{$order->ref('users','user_id')->address}</b></p>
 <hr>
 <p>Datum objednání: <b>{$order->created|date:'j. n. Y'}</b></p>
 <br>
-{if $user->getIdentity()->data['id'] == $order->id}
+<p>Stav objednávky: <b id="status">{$order->status}</b></p>
+    {if $user->getIdentity()->data['id'] == $order->id}
     <a n:href="User:edit $order->id" class="btn btn-primary">Upravit profil</a>
 {elseif $user->getIdentity()->roles[0] == "admin"}
     <a n:href="Order:edit $order->id" class="btn btn-primary">Upravit</a>
 {/if}
+
+{/block}
+{block scripts}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    $("#status").css({"padding":"10px","border":"solid 2px black"});
+    $("#status:contains('processing')").css("background-color", "lightblue");
+    $("#status:contains('accepted')").css("background-color", "lightgreen");
+    $("#status:contains('delivering')").css({"background-color": "blue", "color": "white"});
+    $("#status:contains('completed')").css("background-color", "green");
+    $("#status:contains('cancelled')").css("background-color", "orangered");
+    $("#status").on("change", function () {
+        $("#status").css("background-color", "lightblue");
+        $("#status").css("background-color", "lightgreen");
+        $("#status").css({"background-color": "blue", "color": "white"});
+        $("#status").css("background-color", "green");
+        $("#status").css("background-color", "orangered");
+    });
+</script>

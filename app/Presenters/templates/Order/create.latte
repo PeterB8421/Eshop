@@ -72,6 +72,15 @@
             <input type="submit" n:name=submit class="btn btn-success" placeholder="Objednat">
         </div>
     </div>
+    <input n:name=product_id type="number" hidden value="{$product->id}">
+    <input n:name=user_id type="number" hidden value="{$user->getIdentity()->data['id']}">
+    <select n:name=status hidden>
+        <option value="processing" selected>processing</option>
+        <option value="accepted">accepted</option>
+        <option value="delivering">delivering</option>
+        <option value="completed">completed</option>        
+        <option value="cancelled">cancelled</option>
+    </select>
 </form>
 
 {/block}
@@ -82,7 +91,7 @@
         $("#wholeprice").html((($("#price").html()) * $("#quantity").val()).toFixed(2));
         $("#quantity").on('change', function () {
             $("#wholeprice").html((($("#price").html()) * $("#quantity").val()).toFixed(2));
-        })
-    })
+        });
+    });
 
 </script>

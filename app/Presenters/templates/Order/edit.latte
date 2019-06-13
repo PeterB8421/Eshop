@@ -1,0 +1,133 @@
+{* Latte template *}
+
+{block content}
+<h2 class="jumbotron">Úprava objednávky</h2>
+<a n:href="Product:default" role="button" class="btn btn-default">&lt;&lt; Zpět na hlavní stránku</a>
+{import '../components/bootstrap-form.latte'}
+<form n:name="orderForm" class="ajax">
+    {if $form->ownErrors}
+        <div class="alert alert-danger">
+            <ul class=error n:ifcontent>
+                <li n:foreach="$form->ownErrors as $error">{$error}</li>
+            </ul>
+        </div>
+    {/if}
+    <h3>Produkt</h3>
+    <div class="row">
+        <p>Objednávaný produkt: <b>{$order->ref('product','product_id')->name}</b> <img src="{$order->ref('product','product_id')->photo|dataStream}" class="img-responsive" style="width: 50px;"></p>
+    </div>
+    <div class="row">
+        <p>Cena za kus: <b id="price">{$order->ref('product','product_id')->price}</b> Kč</p>
+    </div>
+    <div class="form-group row">
+        <label n:name=quantity class="col-sm-3 col-form-label"><span class="required">*</span> Počet kusů: </label>
+        <div class="col-sm-6">
+            <input readonly id="quantity" type="number" n:name=quantity value="1" step="1" min="1" max="99" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <p>Celková cena: <b style="color: darkred;" id="wholeprice"></b> Kč</p>
+    </div>
+    <hr>
+    <h3>Platba a doručení</h3>
+    <div class="form-group row">
+        <label n:name=payType class="col-sm-3 col-form-label"><span class="required">*</span> Typ platby: </label>
+        <div class="col-sm-4">
+            <input type="text" readonly n:name=payType class="form-control" placeholder="" value="{$order->payType}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=deliveryType class="col-sm-3 col-form-label">Způsob doručení: </label>
+        <div class="col-sm-6">
+            <input type="text" readonly n:name=deliveryType class="form-control" value="{$order->deliveryType}" placeholder="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label n:name=note class="col-sm-3 col-form-label">Poznámka k objednávce: </label>
+        <div class="col-sm-6">
+            <textarea n:name=note class="form-control" placeholder="" rows="5" cols="50"></textarea>
+        </div>
+    </div>
+
+    <hr>
+    <h3>Příjemce</h3>
+    <div class="row">
+        <p>Jméno a příjmení: <b>{$user->getIdentity()->name} {$user->getIdentity()->surname}</b></p>
+    </div>
+    <div class="row">
+        <p>Adresa doručení: <b>{$user->getIdentity()->address}</b></p>
+    </div>
+    <hr>
+    <div class="form-group row">
+        <label n:name=status class="col-sm-3 col-form-label">Stav objednávky</label>
+        <div class="col-sm-4">
+            {if $user->getIdentity()->roles[0] == "registered"}
+                <input id="status" n:name=status readonly class="form-control" type="text" value="{$order->status}">
+            {else}
+                <select n:name=status class="form-control">
+                    <option value="processing" {if $order->status == "processing"}selected{/if}>Zpracování</option>
+                    <option value="accepted" {if $order->status == "accepted"}selected{/if}>Přijata</option>
+                    <option value="delivering" {if $order->status == "delivering"}selected{/if}>Na cestě</option>
+                    <option value="completed" {if $order->status == "completed"}selected{/if}>Doručena</option>        
+                    <option value="cancelled" {if $order->status == "cancelled"}selected{/if}>Zrušena</option>
+                </select>
+            {/if}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-2">
+            <input type="submit" n:name=submit class="btn btn-primary" placeholder="Upravit">
+        </div>
+    </div>
+    <input n:name=product_id type="number" hidden value="{$order->ref('product','product_id')->id}">
+    <input n:name=user_id type="number" hidden value="{$user->getIdentity()->data['id']}">    
+</form>
+
+{/block}
+{block scripts}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#wholeprice").html((($("#price").html()) * $("#quantity").val()).toFixed(2));
+        $("#quantity").on('change', function () {
+            $("#wholeprice").html((($("#price").html()) * $("#quantity").val()).toFixed(2));
+        });
+        switch ($("#status").attr("value")) {
+            case "processing":
+                $("#status").css("background-color", "lightblue");
+                break;
+            case "accepted":
+                $("#status").css("background-color", "lightgreen");
+                break;
+            case "delivering":
+                $("#status").css({"background-color": "blue", "color": "white"});
+                break;
+            case "completed":
+                $("#status").css("background-color", "green");
+                break;
+            case "cancelled":
+                $("#status").css("background-color", "orangered");
+                break;
+        }
+        $("#status").on("change", function () {
+            switch ($("#status").attr("value")) {
+                case "processing":
+                    $("#status").css("background-color", "lightblue");
+                    break;
+                case "accepted":
+                    $("#status").css("background-color", "lightgreen");
+                    break;
+                case "delivering":
+                    $("#status").css({"background-color": "blue", "color": "white"});
+                    break;
+                case "completed":
+                    $("#status").css("background-color", "green");
+                    break;
+                case "cancelled":
+                    $("#status").css("background-color", "orangered");
+                    break;
+            }
+        });
+    });
+
+</script>

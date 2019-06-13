@@ -41,3 +41,24 @@ form .required label {
     background-color: rgba(255,0,0,0.5);
     color: white;
 }
+
+#processing{
+    background-color: lightblue;
+}
+
+#accepted{
+    background-color: lightgreen;
+}
+
+#delivering{
+    background-color: blue;
+    color: white;
+}
+
+#completed{
+    background-color: green;
+}
+
+#cancelled{
+    background-color: orangered;
+}

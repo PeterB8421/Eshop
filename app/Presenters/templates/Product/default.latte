@@ -23,7 +23,7 @@
                     <td>{$product->category}</td>
                     <td>{$product->description}</td>
                     <td><img src="{if $product->photo != null}{$product->photo|dataStream}{else}{$basePath}/images/default.png{/if}" class="img-responsive" style="width: 50px;"></td>
-                    <td>{$product->price}</td>
+                    <td><span class="price">{$product->price}</span></td>
                     {if $user->isLoggedIn() and $user->getIdentity()->roles[0] == "admin" }<td><a n:href="edit $product->id" role="button" class="btn btn-primary">Upravit</a><a role="button" class="btn btn-danger delete" href="#" data-toggle="modal" data-id="{$product->id}" data-name="{$product->name}">Smazat</a></td>
                     {elseif $user->isLoggedIn() and $user->getIdentity()->roles[0] == "productManager"}<td><a n:href="edit $product->id" role="button" class="btn btn-primary">Upravit</a><a role="button" class="btn btn-danger delete" href="#" data-toggle="modal" data-id="{$product->id}" data-name="{$product->name}">Smazat</a></td>{/if}
                 </tr>
@@ -41,7 +41,7 @@
     <a n:href="Order:default" class="btn btn-default"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Výpis objednávek</a>
 {/if}
 
-<div class="modal" tabindex="-1" role="dialog" id="deleteDialog">
+<div data-toggle="modal" class="modal" tabindex="-1" role="dialog" id="deleteDialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -59,3 +59,17 @@
 </div>
 
 {/block}
+{block scripts}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    $(".delete").click(function () {
+        $(".modal-title").html("Opravdu chcete smazat produkt <b>" + $(this).attr("data-name") + "</b>?")
+        $("#modal-confirm").attr("href", "/?id=" + $(this).attr("data-id") + "&do=delete");
+        $("#deleteDialog").modal('show');
+    });
+
+    $("#modal-confirm").click(function () {
+        document.location.replace($("#modal-confirm").attr("href"));
+    });
+</script>
