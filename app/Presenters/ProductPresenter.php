@@ -23,6 +23,7 @@ final class ProductPresenter extends BasePresenter {
         $this->template->products = $this->eshopManager->getAll($order);
         $this->template->user = $this->getUser();
         \Tracy\Debugger::barDump($this->template->user);
+        Debugger::barDump($this->template->products);
     }
 
     public function renderView($id) {

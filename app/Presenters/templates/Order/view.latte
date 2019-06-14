@@ -32,7 +32,7 @@
     $("#status:contains('processing')").css("background-color", "lightblue");
     $("#status:contains('accepted')").css("background-color", "lightgreen");
     $("#status:contains('delivering')").css({"background-color": "blue", "color": "white"});
-    $("#status:contains('completed')").css("background-color", "green");
+    $("#status:contains('completed')").css({"background-color":"green","color":"white"});
     $("#status:contains('cancelled')").css("background-color", "orangered");
     $("#status").on("change", function () {
         $("#status").css("background-color", "lightblue");

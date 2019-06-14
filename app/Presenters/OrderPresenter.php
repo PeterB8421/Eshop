@@ -104,7 +104,8 @@ final class OrderPresenter extends BasePresenter {
             'processing' => 'Zpracování',
             'accepted' => 'Přijata',
             'delivering' => 'Odesláno',
-            'completed' => 'Dokončeno'
+            'completed' => 'Dokončeno',
+            'cancelled' => 'Zrušena'
         ]);
 
         $form->addSubmit('submit', "Objednat")->setAttribute("class", "btn btn-primary");
